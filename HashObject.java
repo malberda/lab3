@@ -1,7 +1,7 @@
 public class HashObject
 {
 
-	private Object object;
+	private Object object=null;
 	private int freqCount;
 	private int probeCount;
 
@@ -28,9 +28,14 @@ public class HashObject
 @Override
 	public String toString()
 	{
-		String toRet="this HashObject has frequency count: "+this.freqCount+" and probe count "+this.probeCount;
+		String toRet="this HashObject is "+this.object+"has frequency count: "+this.freqCount+" and probe count "+this.probeCount;
 		return toRet;
 	}	
+
+	public void print()
+	{
+		return;
+	}
 
 
 //@Override

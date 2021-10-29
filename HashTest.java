@@ -47,36 +47,39 @@ public class HashTest
 
 
 			//driving code
-
+			Random ran=new Random();
+			HashTable linearTable=new HashTable(largerPrime,a,1);			
+			HashTable doubleTable=new HashTable(largerPrime,a,2);
 
 			for(int i=0;i<n;i++)
 			{
 				if(inputType==1)
 				{
-					int input=Random.nextInt();
-					System.out.println("input is "+input);
+					int input=ran.nextInt();
+				//	System.out.println("input is "+input);
+					linearTable.put(input);
+					doubleTable.put(input);
 				}
-				if(inputType==2)
+				else if(inputType==2)
 				{
 					long input=System.currentTimeMillis();
-					System.out.println("input is "+input);
+				//	System.out.println("input is "+input);
+					linearTable.put(input);
+					doubleTable.put(input);
 				}
-				if(inputType==3)
+				else//input is 3 hopefully
 				{
 					return;
+
 				}
-
-
-
 
 
 
 
 			}
+System.out.println("about to print");
 
-
-
-
+			hashTable.print();
 
 
 

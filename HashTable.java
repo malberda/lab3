@@ -23,8 +23,12 @@ public class HashTable
 	}
 
 
-	public void put(Object value, int key)
+	public void put(Object object, int type)
 	{
+
+		
+
+
 		return;
 	}
 
@@ -97,6 +101,23 @@ public class HashTable
 				return true;
 		}
 		return false;
+	}
+
+	public void print()
+	{
+		for(int i=0;i<this.capacity;i++)
+		{
+			System.out.print("entry number "+i+": ");
+			try{
+				System.out.println(table[i].toString());
+				return;
+			}
+			catch(Exception e)
+			{
+				System.out.println("empty");
+			}
+
+		}
 	}
 
 
