@@ -1,3 +1,6 @@
+import java.util.Random;
+
+
 public class HashTest
 {
 
@@ -10,9 +13,20 @@ public class HashTest
 		int m=largerPrime;
 
 		try{
+			int debugLevel=0;
 			int inputType=Integer.parseInt(args[0]);
-			int loadFactor=Integer.parseInt(args[1]);
-			int debugLevel=Integer.parseInt(args[2]);
+			double  loadFactor=Double.parseDouble(args[1]);
+
+
+			try{
+				debugLevel=Integer.parseInt(args[2]);
+			}
+			catch(Exception e)
+			{
+				System.out.println("there was no debug choice given, so debug defaults to 0");
+				//do nothing i think
+			}
+
 			
 			if(inputType>3 || inputType<0)
 			{
@@ -24,15 +38,41 @@ public class HashTest
 				System.out.println("The debug level must be either 0 or 1");
 			}
 			//for clarification, a, n, and m are variables added to match the lab description
-			int a=loadFactor; 
-			int n=a*m;
+			double a=loadFactor; 
+			int n=(int)(a*(double)m);
 
 
 			//generating the different objects and hashing them happens next. first im creating the hashtable.java code.
 
 
 
+			//driving code
 
+
+			for(int i=0;i<n;i++)
+			{
+				if(inputType==1)
+				{
+					int input=Random.nextInt();
+					System.out.println("input is "+input);
+				}
+				if(inputType==2)
+				{
+					long input=System.currentTimeMillis();
+					System.out.println("input is "+input);
+				}
+				if(inputType==3)
+				{
+					return;
+				}
+
+
+
+
+
+
+
+			}
 
 
 
