@@ -1,16 +1,18 @@
 public class HashObject
 {
 
-	private Object object=null;
+	private Object object;
 	private int freqCount;
 	private int probeCount;
+	private boolean full;
 
 
 	public HashObject(Object obj)
 	{
-		this.object=obj;
+		this.object=null;
 		this.freqCount=0;
 		this.probeCount=0;
+		this.full=false;
 	}
 
 
@@ -22,6 +24,7 @@ public class HashObject
 		this.object=null;
 		this.freqCount=0;
 		this.probeCount=0;
+		this.full=false;
 	}
 
 
@@ -32,16 +35,25 @@ public class HashObject
 		return toRet;
 	}	
 
-	public void print()
+	public boolean checkFull()
 	{
-		return;
+		return this.full;
 	}
+
+	public void set(Object obj)
+	{
+		this.object=obj;
+		this.full=true;
+	}
+
 
 
 //@Override
 	public boolean compareTo(Object key)
 	{
-		return true;										//finish compareTo wherever that needs to go
+
+		return this.object.equals(key);
+												//finish compareTo wherever that needs to go
 	}
 
 	public Object getObject()
@@ -49,14 +61,14 @@ public class HashObject
 		return this.object;
 	}
 
-	public void setFreqCount()
+	public void incFreqCount()
 	{
-
+		this.freqCount+=1;
 	}
 
-	public void setProbeCount()
+	public void incProbeCount()
 	{
-
+		this.probeCount+=1;
 	}
 
 

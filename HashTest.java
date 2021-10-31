@@ -48,24 +48,24 @@ public class HashTest
 
 			//driving code
 			Random ran=new Random();
-			HashTable linearTable=new HashTable(largerPrime,a,1);			
-			HashTable doubleTable=new HashTable(largerPrime,a,2);
+			HashTable linearTable=new HashTable(largerPrime,a,inputType);			
+			HashTable doubleTable=new HashTable(largerPrime,a,inputType);
 
 			for(int i=0;i<n;i++)
 			{
 				if(inputType==1)
 				{
 					int input=ran.nextInt();
-				//	System.out.println("input is "+input);
-					linearTable.put(input);
-					doubleTable.put(input);
+					System.out.println("input is "+input+" number is "+i);
+					linearTable.put(input,1,m);
+					doubleTable.put(input,2,m);
 				}
 				else if(inputType==2)
 				{
 					long input=System.currentTimeMillis();
 				//	System.out.println("input is "+input);
-					linearTable.put(input);
-					doubleTable.put(input);
+		//			linearTable.put(input,1,m);
+		//			doubleTable.put(input,2,m);
 				}
 				else//input is 3 hopefully
 				{
@@ -77,9 +77,10 @@ public class HashTest
 
 
 			}
-System.out.println("about to print");
 
-			hashTable.print();
+			linearTable.print();
+	//		doubleTable.print();
+		System.out.println("inputType is "+inputType+" loadfactor is "+loadFactor+" debug level is "+debugLevel);
 
 
 
@@ -94,7 +95,6 @@ System.out.println("about to print");
 
 
 
-		//System.out.println("inputType is "+inputType+" loadfactor is "+loadFactor+" debug level is "+debugLevel);
 
 
 

@@ -9,6 +9,10 @@ public class HashTable
 	public HashTable()
 	{
 		this.table=new HashObject[95791];
+		for(int i=0;i<95791;i++)
+		{
+			table[i]=new HashObject(-1);
+		}
 		this.capacity=95791;
 		this.openAddressType=1;//this is linear probing
 		this.loadFactor=0.75;
@@ -17,20 +21,105 @@ public class HashTable
 	public HashTable(int sizeM, double a, int type)
 	{
 		this.table=new HashObject[sizeM];
+		if(type==1 || type==2)
+		{
+			System.out.println("type of object is ints");
+			for(int i=0;i<sizeM;i++)
+			{
+				table[i]=new HashObject(-1);
+			}
+		}
+		else
+		{
+			System.out.println("type of object is stirngs");
+			for(int i=0;i<sizeM;i++)
+			{
+				table[i]=new HashObject("");
+			}
+		}
+
 		this.capacity=sizeM;
 		this.openAddressType=type;
 		this.loadFactor=a;
 	}
 
 
-	public void put(Object object, int type)
+	public void put(Object object, int type, int m)
 	{
+		int i=0;
+		int index=0;
+		LinearProbe linProbe=new LinearProbe();
+		DoubleHashing doubleProbe=new DoubleHashing();
+		HashObject hashObject=new HashObject(object);
 
+
+
+		if(this.isFull())
+		{
+			System.out.println("the table is full");
+			if(!this.contains(object))
+				return;
+		}
+
+
+		if(type==1)
+		{
+//	public int probeLinearHashPos(int mPrime, Object kValue, int i)
+			while(table[linProbe.probeLinearHashPos(m,object,i)].checkFull()==true)
+			{
+				table[linProbe.probeLinearHashPos(m,object,i)].incProbeCount();
+
+				if(table[linProbe.probeLinearHashPos(m,object,i)].compareTo(object))
+				{
+					table[linProbe.probeLinearHashPos(m,object,i)].incFreqCount();
+					return;
+				}
+
+
+			//	System.out.println("attempted to put "+object.toString()+" in position "+linProbe.probeLinearHashPos(m,object,i)+", but it had "+table[linProbe.probeLinearHashPos(m,object,i)].getObject()+" in it");
+				i++;
+			}
+				table[linProbe.probeLinearHashPos(m,object,i)].incProbeCount();
+			System.out.println("time to set in position "+linProbe.probeLinearHashPos(m,object,i));
+			table[linProbe.probeLinearHashPos(m,object,i)].set(object);
+		}
+		else if(type==2)
+		{
+//	public int probeLinearHashPos(int mPrime, Object kValue, int i)
+			while(table[doubleProbe.probeDoubleHashPos(m,object,i)].checkFull()==true)
+			{
+				table[doubleProbe.probeDoubleHashPos(m,object,i)].incProbeCount();
+				if(table[doubleProbe.probeDoubleHashPos(m,object,i)].compareTo(object))
+				{
+					table[doubleProbe.probeDoubleHashPos(m,object,i)].incFreqCount();
+					return;
+				}
+
+
+			//	System.out.println("attempted to put "+object.toString()+" in position "+linProbe.probeLinearHashPos(m,object,i)+", but it had "+table[linProbe.probeLinearHashPos(m,object,i)].getObject()+" in it");
+				i++;
+			}
+				table[doubleProbe.probeDoubleHashPos(m,object,i)].incProbeCount();
+			System.out.println("time to set in position "+doubleProbe.probeDoubleHashPos(m,object,i));
+			table[doubleProbe.probeDoubleHashPos(m,object,i)].set(object);
+		}
 		
 
 
 		return;
 	}
+
+
+	public boolean isFull()
+	{
+		for(int i=0;i<this.capacity;i++)
+		{
+			if(!this.table[i].checkFull())
+				return false;
+		}
+		return true;
+	}
+
 
 	public double getLoadFactor()
 	{
@@ -110,7 +199,6 @@ public class HashTable
 			System.out.print("entry number "+i+": ");
 			try{
 				System.out.println(table[i].toString());
-				return;
 			}
 			catch(Exception e)
 			{

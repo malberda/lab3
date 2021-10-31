@@ -2,10 +2,23 @@ public class DoubleHashing
 {
 
 //pass in smaller prime then larger prime
-	public int ProbeDoubleHashPos(int mPrime1,int mPrime2, int kValue,int  i)
+	public int probeDoubleHashPos(int mPrime, Object kValue,int  i)
 	{
-		return (((kValue%mPrime2)+i*(1+kValue%mPrime2))%mPrime2);
+			int h1=PositiveMod(kValue.hashCode(),mPrime);
+			int h2=PositiveMod(kValue.hashCode(),mPrime-2);
+			h2+=1;
+
+
+		return PositiveMod(h1+i*h2,mPrime);
 	}
 
 	
+	public int PositiveMod(int dividend, int divisor)
+	{
+		int value=dividend%divisor;
+		if(value<0)
+			value+=divisor;
+		return value;
+	}
+
 }
