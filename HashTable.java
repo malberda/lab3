@@ -8,7 +8,7 @@ public class HashTable
 	private int openAddressType;
 	private double loadFactor;
 
-
+//constructor
 	public HashTable()
 	{
 		this.table=new HashObject[95791];
@@ -21,9 +21,10 @@ public class HashTable
 		this.loadFactor=0.75;
 	}
 
+		//constructor with variables, default use
 	public HashTable(int sizeM, double a, int type)
 	{
-		this.table=new HashObject[sizeM];
+		this.table=new HashObject[sizeM];	//initializes new table
 		if(type==1 || type==2)
 		{
 		//	System.out.println("type of object is ints");
@@ -46,7 +47,7 @@ public class HashTable
 		this.loadFactor=a;
 	}
 
-
+			//main adding code
 	public void put(Object object, int type, int m)
 	{
 		int i=0;
@@ -55,19 +56,24 @@ public class HashTable
 		DoubleHashing doubleProbe=new DoubleHashing();
 		HashObject hashObject=new HashObject(object);
 
-
+			//if table is full and does not contain object, returns value
+			//if it does not contain, increase probe count for everything.
 
 		if(this.isFull())
 		{
 			//System.out.println("the table is full");
 			if(!this.contains(object))
+			{
+				this.increaseProbeCountForEverything();
 				return;
+			}
 		}
 
 
+
+			//if type is one, then run this code, which is linear hashing
 		if(type==1)
 		{
-//	public int probeLinearHashPos(int mPrime, Object kValue, int i)
 			while(table[linProbe.probeLinearHashPos(m,object,i)].checkFull()==true)
 			{
 
@@ -79,16 +85,13 @@ public class HashTable
 				table[linProbe.probeLinearHashPos(m,object,i)].incProbeCount();
 
 
-			//	System.out.println("attempted to put "+object.toString()+" in position "+linProbe.probeLinearHashPos(m,object,i)+", but it had "+table[linProbe.probeLinearHashPos(m,object,i)].getObject()+" in it");
 				i++;
 			}
 				table[linProbe.probeLinearHashPos(m,object,i)].incProbeCount();
-	//		System.out.println("time to set in position "+linProbe.probeLinearHashPos(m,object,i));
 			table[linProbe.probeLinearHashPos(m,object,i)].set(object);
 		}
-		else if(type==2)
+		else if(type==2)		//if type is 2, then double hashing
 		{
-//	public int probeLinearHashPos(int mPrime, Object kValue, int i)
 			while(table[doubleProbe.probeDoubleHashPos(m,object,i)].checkFull()==true)
 			{
 				if(table[doubleProbe.probeDoubleHashPos(m,object,i)].compareTo(object))
@@ -99,11 +102,9 @@ public class HashTable
 				table[doubleProbe.probeDoubleHashPos(m,object,i)].incProbeCount();
 
 
-			//	System.out.println("attempted to put "+object.toString()+" in position "+linProbe.probeLinearHashPos(m,object,i)+", but it had "+table[linProbe.probeLinearHashPos(m,object,i)].getObject()+" in it");
 				i++;
 			}
 				table[doubleProbe.probeDoubleHashPos(m,object,i)].incProbeCount();
-	//		System.out.println("time to set in position "+doubleProbe.probeDoubleHashPos(m,object,i));
 			table[doubleProbe.probeDoubleHashPos(m,object,i)].set(object);
 		}
 		
@@ -112,7 +113,7 @@ public class HashTable
 		return;
 	}
 
-
+//checks if table is full
 	public boolean isFull()
 	{
 		for(int i=0;i<this.capacity;i++)
@@ -123,12 +124,13 @@ public class HashTable
 		return true;
 	}
 
-
+//returns load factor
 	public double getLoadFactor()
 	{
 		return this.loadFactor;
 	}
 
+//checks how many duplicates theyre are
 	public int totalDuplicates()
 	{
 		int sum=0;
@@ -139,6 +141,7 @@ public class HashTable
 		return sum;
 	}
 
+//checks how many times each element in the table was probed, thouhg only those elements who are not empty
 	public int totalProbes()
 	{
 		int sum=0;
@@ -152,12 +155,14 @@ public class HashTable
 		return sum;		
 	}
 
+//returns total number of probes
 	public double averageProbes()
 	{
 		int probes=this.totalProbes();
 		return ((double)probes/this.size());
 	}
 
+//removes all objects matching passed in Object key
 	public void remove(Object key)
 	{
 		for(int i=0;i<this.capacity;i++)
@@ -169,6 +174,7 @@ public class HashTable
 		}
 	}
 
+//returns the total number of full spaces in the table
 	public int size()
 	{
 		int count=0;
@@ -180,6 +186,7 @@ public class HashTable
 		return count;
 	}
 
+//clears the whole table
 	public void clear()
 	{
 		for(int i=0;i<this.capacity;i++)
@@ -188,6 +195,17 @@ public class HashTable
 		}
 	}
 
+//increases the probe count for everything
+	public void increaseProbeCountForEverything()
+	{
+		for(int i=0;i<this.capacity;i++)
+		{
+				table[i].incProbeCount();
+		}
+		return;
+	}
+
+//checks if table contains Object key
 	public boolean contains(Object key)
 	{
 		for(int i=0;i<this.capacity;i++)
@@ -199,6 +217,7 @@ public class HashTable
 		return false;
 	}
 
+//prints the table
 	public void print()
 	{
 		for(int i=0;i<this.capacity;i++)
@@ -217,7 +236,7 @@ public class HashTable
 		}
 	}
 
-
+//prints table to linear-dump and double-dump if debu-level is 1
 	public void printFile(int type) throws IOException
 	{
 		File fout;

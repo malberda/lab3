@@ -9,17 +9,21 @@ public class HashTest
 
 	public static void main(String[] args) {
 		
+
+
+
 		int largerPrime;
 		PrimeGenerator pGen=new PrimeGenerator(95500,96000);
 		largerPrime=pGen.primePairGenerator();
 		int m=largerPrime;
 
+//try code
 		try{
 			int debugLevel=0;
 			int inputType=Integer.parseInt(args[0]);
 			double  loadFactor=Double.parseDouble(args[1]);
 
-
+//try to set debug level, in case debug level is not put in place
 			try{
 				debugLevel=Integer.parseInt(args[2]);
 			}
@@ -50,28 +54,29 @@ public class HashTest
 
 			//driving code
 			Random ran=new Random();
+	//create both HashTables
 			HashTable linearTable=new HashTable(largerPrime,a,inputType);			
 			HashTable doubleTable=new HashTable(largerPrime,a,inputType);
 
 
-
+	//main driving code, puts n values in HashTables.
 			for(int i=0;i<n;i++)
 			{
-				if(inputType==1)
+				if(inputType==1)//randomly generated numbers using nextInt()
 				{
 					int input=ran.nextInt();
 				//	System.out.println("input is "+input+" number is "+i);
 					linearTable.put(input,1,m);
 					doubleTable.put(input,2,m);
-				}
-				else if(inputType==2)
+				}	
+				else if(inputType==2)//currentTimeMillis()
 				{
 					long input=System.currentTimeMillis();
 				//	System.out.println("input is "+input);
 					linearTable.put(input,1,m);
 					doubleTable.put(input,2,m);
 				}
-				else//input should jsut be 3 hopefully
+				else//input should jsut be 3 hopefully, done using word-list
 				{
 					FileInputStream fis=new FileInputStream("word-list");
 					Scanner sc=new Scanner(fis);
@@ -85,29 +90,10 @@ public class HashTest
 							i++;
 							System.out.println(i);
 					}sc.close();
-
-/*
-				Scanner sc2=new Scanner(new File("word-list"));
-					
-					while(sc2.hasNextLine()&& i<n){
-						Scanner s2=new Scanner(sc2.nextLine());
-						while(s2.hasNext()&&i<n){
-							String input=s2.next();
-					//		System.out.println("input is "+input);
-							linearTable.put(input,1,m);
-							doubleTable.put(input,2,m);
-							i++;
-							System.out.println(i);
-						}
-					}*/
-
 				}
-
-
-
-
 			}
 
+//print results
 			System.out.println("A good table size is found: "+m);
 			System.out.print("Data source type: ");
 			if(inputType==1)
@@ -125,11 +111,13 @@ double averageProbes;
 			numDuplicates=linearTable.totalDuplicates();
 			averageProbes=linearTable.averageProbes();
 
+
+//printing rest of results
 System.out.println("Using Linear Hashing....");
 System.out.println("Input "+n+" elements, of which "+numDuplicates+" duplicates");
 System.out.println("load factor = "+loadFactor+", Avg. no. of probes "+averageProbes);
 
-			//linearTable.print();
+			//linearTable.print();//testing purposes
 
 			numDuplicates=doubleTable.totalDuplicates();
 			averageProbes=doubleTable.averageProbes();
@@ -140,48 +128,18 @@ System.out.println("Using Double Hashing....");
 System.out.println("Input "+n+" elements, of which "+numDuplicates+" duplicates");
 System.out.println("load factor = "+loadFactor+", Avg. no. of probes "+averageProbes);
 
-			//doubleTable.print();
-
-
-
-
-
-
+			//doubleTable.print();//testing purposes
 			if(debugLevel==1)
 			{
 				linearTable.printFile(1);
 				doubleTable.printFile(2);
 			}
-
-
-		//System.out.println("inputType is "+inputType+" loadfactor is "+loadFactor+" debug level is "+debugLevel);
-
-
-
-
 		}
 		catch(Exception e){
 			System.out.println("Error: correct input is java HashTest a b c, where a is 1-3, b is the load factor, and c is either 0 or 1");
 			return;
 		}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		return;
-
-
-
 	}
 
 }

@@ -12,7 +12,7 @@ public class DoubleHashing
 		return PositiveMod(h1+i*h2,mPrime);
 	}
 
-	
+	//positive modulous
 	public int PositiveMod(int dividend, int divisor)
 	{
 		int value=dividend%divisor;
