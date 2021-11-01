@@ -1,3 +1,6 @@
+import java.io.*;
+
+
 public class HashTable
 {
 	private HashObject[] table;
@@ -23,7 +26,7 @@ public class HashTable
 		this.table=new HashObject[sizeM];
 		if(type==1 || type==2)
 		{
-			System.out.println("type of object is ints");
+		//	System.out.println("type of object is ints");
 			for(int i=0;i<sizeM;i++)
 			{
 				table[i]=new HashObject(-1);
@@ -31,7 +34,7 @@ public class HashTable
 		}
 		else
 		{
-			System.out.println("type of object is stirngs");
+		//	System.out.println("type of object is stirngs");
 			for(int i=0;i<sizeM;i++)
 			{
 				table[i]=new HashObject("");
@@ -56,7 +59,7 @@ public class HashTable
 
 		if(this.isFull())
 		{
-			System.out.println("the table is full");
+			//System.out.println("the table is full");
 			if(!this.contains(object))
 				return;
 		}
@@ -67,20 +70,20 @@ public class HashTable
 //	public int probeLinearHashPos(int mPrime, Object kValue, int i)
 			while(table[linProbe.probeLinearHashPos(m,object,i)].checkFull()==true)
 			{
-				table[linProbe.probeLinearHashPos(m,object,i)].incProbeCount();
 
 				if(table[linProbe.probeLinearHashPos(m,object,i)].compareTo(object))
 				{
 					table[linProbe.probeLinearHashPos(m,object,i)].incFreqCount();
 					return;
 				}
+				table[linProbe.probeLinearHashPos(m,object,i)].incProbeCount();
 
 
 			//	System.out.println("attempted to put "+object.toString()+" in position "+linProbe.probeLinearHashPos(m,object,i)+", but it had "+table[linProbe.probeLinearHashPos(m,object,i)].getObject()+" in it");
 				i++;
 			}
 				table[linProbe.probeLinearHashPos(m,object,i)].incProbeCount();
-			System.out.println("time to set in position "+linProbe.probeLinearHashPos(m,object,i));
+	//		System.out.println("time to set in position "+linProbe.probeLinearHashPos(m,object,i));
 			table[linProbe.probeLinearHashPos(m,object,i)].set(object);
 		}
 		else if(type==2)
@@ -88,19 +91,19 @@ public class HashTable
 //	public int probeLinearHashPos(int mPrime, Object kValue, int i)
 			while(table[doubleProbe.probeDoubleHashPos(m,object,i)].checkFull()==true)
 			{
-				table[doubleProbe.probeDoubleHashPos(m,object,i)].incProbeCount();
 				if(table[doubleProbe.probeDoubleHashPos(m,object,i)].compareTo(object))
 				{
 					table[doubleProbe.probeDoubleHashPos(m,object,i)].incFreqCount();
 					return;
 				}
+				table[doubleProbe.probeDoubleHashPos(m,object,i)].incProbeCount();
 
 
 			//	System.out.println("attempted to put "+object.toString()+" in position "+linProbe.probeLinearHashPos(m,object,i)+", but it had "+table[linProbe.probeLinearHashPos(m,object,i)].getObject()+" in it");
 				i++;
 			}
 				table[doubleProbe.probeDoubleHashPos(m,object,i)].incProbeCount();
-			System.out.println("time to set in position "+doubleProbe.probeDoubleHashPos(m,object,i));
+	//		System.out.println("time to set in position "+doubleProbe.probeDoubleHashPos(m,object,i));
 			table[doubleProbe.probeDoubleHashPos(m,object,i)].set(object);
 		}
 		
@@ -141,7 +144,10 @@ public class HashTable
 		int sum=0;
 		for(int i=0;i<this.capacity;i++)
 		{
-			sum+=this.table[i].getProbeCount();
+			if(table[i].checkFull())
+			{
+				sum+=this.table[i].getProbeCount();
+			}
 		}
 		return sum;		
 	}
@@ -149,7 +155,7 @@ public class HashTable
 	public double averageProbes()
 	{
 		int probes=this.totalProbes();
-		return (probes/this.capacity);
+		return ((double)probes/this.size());
 	}
 
 	public void remove(Object key)
@@ -168,7 +174,7 @@ public class HashTable
 		int count=0;
 		for(int i=0;i<this.capacity;i++)
 		{
-			if(table[i].getObject()!=null)
+			if(table[i].checkFull())
 				count+=1;
 		}
 		return count;
@@ -186,6 +192,7 @@ public class HashTable
 	{
 		for(int i=0;i<this.capacity;i++)
 		{
+				table[i].incProbeCount();
 			if(table[i].compareTo(key))
 				return true;
 		}
@@ -198,7 +205,9 @@ public class HashTable
 		{
 			System.out.print("entry number "+i+": ");
 			try{
+				if(table[i].checkFull())
 				System.out.println(table[i].toString());
+
 			}
 			catch(Exception e)
 			{
@@ -208,6 +217,32 @@ public class HashTable
 		}
 	}
 
+
+	public void printFile(int type) throws IOException
+	{
+		File fout;
+		if(type==1)
+			fout=new File("linear-dump");
+		else
+			fout=new File("double-dump");
+
+	FileOutputStream fos = new FileOutputStream(fout);
+ 
+	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+
+		for(int i=0;i<this.capacity;i++)
+		{
+			if(table[i].checkFull())
+			{
+				bw.write("table["+i+"]: ");
+				bw.write(table[i].toString());
+				bw.newLine();
+			}
+		}
+
+		bw.close();
+		return;
+	}
 
 
 //	public 

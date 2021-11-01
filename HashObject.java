@@ -31,7 +31,8 @@ public class HashObject
 @Override
 	public String toString()
 	{
-		String toRet="this HashObject is "+this.object+"has frequency count: "+this.freqCount+" and probe count "+this.probeCount;
+		//String toRet=this.object+" "+this.probeCount+" "+this.freqCount;
+		String toRet=this.object+" frequency:"+this.freqCount+" probes:"+this.probeCount;
 		return toRet;
 	}	
 
