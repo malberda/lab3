@@ -31,7 +31,7 @@ public class HashObject
 @Override
 	public String toString()
 	{
-		String toRet=this.object+" frequency:"+this.freqCount+" probes:"+this.probeCount;
+		String toRet=this.object+" "+this.freqCount+" "+this.probeCount;
 		return toRet;
 	}	
 
@@ -53,7 +53,6 @@ public class HashObject
 //@Override
 	public boolean compareTo(Object key)
 	{
-
 		return this.object.equals(key);
 												//finish compareTo wherever that needs to go
 	}
@@ -75,6 +74,11 @@ public class HashObject
 	public void incProbeCount()
 	{
 		this.probeCount+=1;
+	}
+		//decreases the probe count
+	public void decProbeCount()
+	{
+		this.probeCount-=1;
 	}
 
 		//returns frequency count

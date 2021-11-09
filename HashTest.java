@@ -57,16 +57,18 @@ public class HashTest
 	//create both HashTables
 			HashTable linearTable=new HashTable(largerPrime,a,inputType);			
 			HashTable doubleTable=new HashTable(largerPrime,a,inputType);
-
+					FileInputStream fis=new FileInputStream("word-list");
+					Scanner sc=new Scanner(fis);
 
 	//main driving code, puts n values in HashTables.
-			for(int i=0;i<n;i++)
+			for(int i=0;i<=n;i++)
 			{
 				if(inputType==1)//randomly generated numbers using nextInt()
 				{
 					int input=ran.nextInt();
 				//	System.out.println("input is "+input+" number is "+i);
-					linearTable.put(input,1,m);
+					if(linearTable.put(input,1,m)==0)
+						n++;
 					doubleTable.put(input,2,m);
 				}	
 				else if(inputType==2)//currentTimeMillis()
@@ -74,24 +76,21 @@ public class HashTest
 					long input=System.currentTimeMillis();
 				//	System.out.println("input is "+input);
 					linearTable.put(input,1,m);
+						//n++;
 					doubleTable.put(input,2,m);
 				}
 				else//input should jsut be 3 hopefully, done using word-list
 				{
-					FileInputStream fis=new FileInputStream("word-list");
-					Scanner sc=new Scanner(fis);
-
-					while(sc.hasNextLine()&&i<n)
-					{
-							String input=sc.nextLine();
-					//		System.out.println("input is "+input);
-							linearTable.put(input,1,m);
-							doubleTable.put(input,2,m);
-							i++;
-							System.out.println(i);
-					}sc.close();
+					String input=sc.nextLine();
+				//	System.out.println("input is "+input);
+					if(linearTable.put(input,1,m)==0)
+						n++;
+					doubleTable.put(input,2,m);
+					
+						//	System.out.println(i);
+					
 				}
-			}
+			}sc.close();
 
 //print results
 			System.out.println("A good table size is found: "+m);
@@ -109,7 +108,7 @@ int numDuplicates;
 double averageProbes;
 
 			numDuplicates=linearTable.totalDuplicates();
-			averageProbes=linearTable.averageProbes();
+			averageProbes=linearTable.averageProbes()/(m);//bigger than m, smaller than n
 
 
 //printing rest of results
@@ -120,7 +119,7 @@ System.out.println("load factor = "+loadFactor+", Avg. no. of probes "+averagePr
 			//linearTable.print();//testing purposes
 
 			numDuplicates=doubleTable.totalDuplicates();
-			averageProbes=doubleTable.averageProbes();
+			averageProbes=doubleTable.averageProbes()/(m);
 
 System.out.println();
 

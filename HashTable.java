@@ -48,27 +48,11 @@ public class HashTable
 	}
 
 			//main adding code
-	public void put(Object object, int type, int m)
+	public int put(Object object, int type, int m)  //returns 1 if non duplicate, 0 if duplicate
 	{
 		int i=0;
-		int index=0;
 		LinearProbe linProbe=new LinearProbe();
 		DoubleHashing doubleProbe=new DoubleHashing();
-		HashObject hashObject=new HashObject(object);
-
-			//if table is full and does not contain object, returns value
-			//if it does not contain, increase probe count for everything.
-
-		if(this.isFull())
-		{
-			//System.out.println("the table is full");
-			if(!this.contains(object))
-			{
-				this.increaseProbeCountForEverything();
-				return;
-			}
-		}
-
 
 
 			//if type is one, then run this code, which is linear hashing
@@ -76,13 +60,14 @@ public class HashTable
 		{
 			while(table[linProbe.probeLinearHashPos(m,object,i)].checkFull()==true)
 			{
+				table[linProbe.probeLinearHashPos(m,object,i)].incProbeCount();
 
 				if(table[linProbe.probeLinearHashPos(m,object,i)].compareTo(object))
 				{
+					table[linProbe.probeLinearHashPos(m,object,i)].decProbeCount();
 					table[linProbe.probeLinearHashPos(m,object,i)].incFreqCount();
-					return;
+					return 0;
 				}
-				table[linProbe.probeLinearHashPos(m,object,i)].incProbeCount();
 
 
 				i++;
@@ -94,13 +79,15 @@ public class HashTable
 		{
 			while(table[doubleProbe.probeDoubleHashPos(m,object,i)].checkFull()==true)
 			{
-				if(table[doubleProbe.probeDoubleHashPos(m,object,i)].compareTo(object))
-				{
-					table[doubleProbe.probeDoubleHashPos(m,object,i)].incFreqCount();
-					return;
-				}
 				table[doubleProbe.probeDoubleHashPos(m,object,i)].incProbeCount();
 
+
+				if(table[doubleProbe.probeDoubleHashPos(m,object,i)].compareTo(object))
+				{
+					table[doubleProbe.probeDoubleHashPos(m,object,i)].decProbeCount();
+					table[doubleProbe.probeDoubleHashPos(m,object,i)].incFreqCount();
+					return 0;
+				}
 
 				i++;
 			}
@@ -110,7 +97,7 @@ public class HashTable
 		
 
 
-		return;
+		return 1;
 	}
 
 //checks if table is full
@@ -147,10 +134,7 @@ public class HashTable
 		int sum=0;
 		for(int i=0;i<this.capacity;i++)
 		{
-			if(table[i].checkFull())
-			{
 				sum+=this.table[i].getProbeCount();
-			}
 		}
 		return sum;		
 	}
@@ -159,7 +143,8 @@ public class HashTable
 	public double averageProbes()
 	{
 		int probes=this.totalProbes();
-		return ((double)probes/this.size());
+		System.out.println("the total probes is "+probes);
+		return ((double)probes);///this.size());
 	}
 
 //removes all objects matching passed in Object key
@@ -180,7 +165,7 @@ public class HashTable
 		int count=0;
 		for(int i=0;i<this.capacity;i++)
 		{
-			if(table[i].checkFull())
+		//	if(table[i].checkFull())
 				count+=1;
 		}
 		return count;
@@ -210,7 +195,7 @@ public class HashTable
 	{
 		for(int i=0;i<this.capacity;i++)
 		{
-				table[i].incProbeCount();
+			//	table[i].incProbeCount();
 			if(table[i].compareTo(key))
 				return true;
 		}
