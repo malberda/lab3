@@ -104,11 +104,12 @@ public class HashTest
 
 System.out.println();
 
+//System.out.println("m is "+m+" n is "+n+" a is "+a);
 int numDuplicates;
 double averageProbes;
 
 			numDuplicates=linearTable.totalDuplicates();
-			averageProbes=linearTable.averageProbes()/(m);//bigger than m, smaller than n
+			averageProbes=linearTable.averageProbes();//bigger than m, smaller than n
 
 
 //printing rest of results
@@ -119,7 +120,7 @@ System.out.println("load factor = "+loadFactor+", Avg. no. of probes "+averagePr
 			//linearTable.print();//testing purposes
 
 			numDuplicates=doubleTable.totalDuplicates();
-			averageProbes=doubleTable.averageProbes()/(m);
+			averageProbes=doubleTable.averageProbes();
 
 System.out.println();
 

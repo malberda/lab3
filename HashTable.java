@@ -143,8 +143,8 @@ public class HashTable
 	public double averageProbes()
 	{
 		int probes=this.totalProbes();
-		System.out.println("the total probes is "+probes);
-		return ((double)probes);///this.size());
+//		System.out.println("the total probes is "+probes);
+		return ((double)probes/this.size());
 	}
 
 //removes all objects matching passed in Object key
@@ -165,7 +165,7 @@ public class HashTable
 		int count=0;
 		for(int i=0;i<this.capacity;i++)
 		{
-		//	if(table[i].checkFull())
+			if(table[i].checkFull())
 				count+=1;
 		}
 		return count;
